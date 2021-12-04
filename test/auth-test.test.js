@@ -6,7 +6,29 @@ const app = require('./../app.js');
 
 chai.use(chaiHttp);
 
+// before((done) => {
+
+// })
+
 describe('[ AUTH ]: Suite de pruebas Auth', () => {
+  const newUser = {
+    name: 'Alex 3',
+    email: 'test3@test.com',
+    password: '123123',
+  };
+
+  it('0. should return 200 when registering a New User', done => {
+    // Cuando la llamada No tiene una llave valida
+    chai
+      .request(app)
+      .post('/auth/join')
+      .set('content-type', 'application/json')
+      .send(newUser)
+      .end((err, res) => {
+        chai.assert.equal(res.status, 201);
+        done();
+      });
+  });
   it('1. should return 401 when no jwt token available', done => {
     // Cuando la llamada No tiene una llave valida
     chai
@@ -32,10 +54,7 @@ describe('[ AUTH ]: Suite de pruebas Auth', () => {
       .request(app)
       .post('/auth/login')
       .set('content-type', 'application/json')
-      .send({
-        email: 'test1@test.com',
-        password: '123123',
-      })
+      .send(newUser)
       .end((err, res) => {
         // Expect valid login
         chai.assert.equal(res.status, 200);
@@ -47,15 +66,14 @@ describe('[ AUTH ]: Suite de pruebas Auth', () => {
       .request(app)
       .post('/auth/login')
       .set('content-type', 'application/json')
-      .send({
-        email: 'test1@test.com',
-        password: '123123',
-      })
+      .send(newUser)
       .end((err, res) => {
-        // console.log('>>>>> RESPONSE LOGIN:  ', res.body.token);
-
         // Expect valid login
+        // console.log('>>>>> RESPONSE LOGIN:  ', res.body.token, res.status);
+
         chai.assert.equal(res.status, 200);
+        // done();
+
         chai
           .request(app)
           .get('/teams')

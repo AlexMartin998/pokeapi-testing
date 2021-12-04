@@ -22,9 +22,8 @@ UserSchema.pre('save', async function (next) {
 });
 
 UserSchema.methods.comparePassword = async function (password) {
-  // TODO: Registrar users in db
-  // return await bcrypt.compare(password, this.passwor);
-  return password === this.password;
+  return await bcrypt.compare(password, this.password);
+  // return password === this.password;
 };
 
 module.exports = model('User', UserSchema);

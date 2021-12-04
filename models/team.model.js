@@ -15,6 +15,7 @@ const TeamSchema = Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
   }
 );
 

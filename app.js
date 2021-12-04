@@ -156,10 +156,27 @@ module.exports = app;
 		  - Hacemos log in  .post('/auth/login')  >  Enviamos el teamArr  .put('/teams')
 				>  Objetenemos la ingo  .get('/teams')
 
-    - 
+    - Lo hacemos con PUT para ganar Idempotencia
 
-	- s
 
+	- Llamadas a la Pokeapi
+	  - Axios
+		  - En el body nos pasan el nombre del pokemon y con ese naem hacemos la peticion a la pokeapi con axios.
+			- La respuesta la estructuramos de acuerdo a mi model de team
+		- Aqui ya cada usuario podra ver solo su team xq vinculamos cada team a un UserID de MongoDB en el model.
+
+	
+	- Limpiando datos entre tests
+	  - Queremos que en cda ejecucion del test se reinicie todo. Mocha nos ayuda con
+		  - before(cb):				Se ejecuta antes de cada  DESCRIBE. Antes de los tests
+			  - Puede funcionar para registrar users
+			- beforeEach(cb):		Se ejecuta antes de cada   IT
+			  - 
+		- Queremos que en el test se cree un user y todo
+		  - 
+		- 
+		- // TODO: Verificaciones con   express-validator
+		  - Como con FH
 
 
 

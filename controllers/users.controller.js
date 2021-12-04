@@ -7,10 +7,8 @@ const registerUser = async (email, password) => {
   await user.save();
 };
 
-const checkUserCredentials = async (email, password) => {
-  const user = await User.findOne({ email });
-  return user.comparePassword(password);
-};
+const checkUserCredentials = async (user, password) =>
+  user.comparePassword(password);
 
 module.exports = {
   registerUser,
