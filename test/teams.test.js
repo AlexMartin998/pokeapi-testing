@@ -8,6 +8,12 @@ chai.use(chaiHttp);
 
 describe('[ TEAMS ]: Suite de pruebas Team', () => {
   it('1. should return the team of the given user', done => {
+    const team = [
+      { name: 'Charizard' },
+      { name: 'Blastoise' },
+      { name: 'Pickachu' },
+    ];
+
     // Solo puede consultar sus teams, el de nadie mas.
     chai
       .request(app)
@@ -18,24 +24,34 @@ describe('[ TEAMS ]: Suite de pruebas Team', () => {
         password: '123123',
       })
       .end((err, res) => {
-        // console.log('>>>>> RESPONSE LOGIN:  ', res.body.token);
-
-        // Expect valid login
+        // // Expect valid login:
+        const token = res.body.token;
+        // console.log('>>>>> RESPONSE LOGIN:  ', { token });
         chai.assert.equal(res.status, 200);
+
         chai
           .request(app)
-          .get('/teams')
-          .set('Authorization', `${res.body.token}`)
+          .put('/teams')
+          .send({
+            team,
+          })
+          .set('Authorization', `${token}`)
           .end((err, res) => {
-            // Tiene equipo con Charizad y Blastoise
-            // {trainer: 'Alex 1', team: [Pokemon]}
-            chai.assert.equal(res.status, 200);
-            chai.assert.equal(res.body.trainer, 'Alex 1'); // Usuario logueado
-            chai.assert.equal(res.body.team.length, 2);
-            chai.assert.equal(res.body.team[0], 'Charizad');
-            chai.assert.equal(res.body.team[1], 'Blastoise');
+            chai
+              .request(app)
+              .get('/teams')
+              .set('Authorization', `${token}`)
+              .end((err, res) => {
+                // // Tiene equipo con Charizad y Blastoise
+                // {trainer: 'Alex 1', team: [Pokemon]}
+                chai.assert.equal(res.status, 200);
+                chai.assert.equal(res.body.trainer, 'Alex 1'); // Usuario logueado
+                chai.assert.equal(res.body.team.length, team.length);
+                chai.assert.equal(res.body.team[0].name, team[0].name);
+                chai.assert.equal(res.body.team[1].name, team[1].name);
 
-            done();
+                done();
+              });
           });
       });
   });

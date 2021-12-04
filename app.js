@@ -144,11 +144,19 @@ module.exports = app;
 	
 
 	- Y se guardan
-	  - Passport agrega  user  al req, y el value de este   req.user   sera lo que retornemos como 2do parametro en la f(x)   done(null, user);   de la config de la Strategy de passport.
+	  - Passport agrega   user   al req, y el  value  de este   req.user   sera lo que retornemos como 2do parametro en la f(x)   done(null, user);   de la config de la Strategy de passport.
+		- IMPLEMENTAR: Que otro user No pueda hacer nada con lo de otros users:
+		  - Debe estar protegido x passport
+			  - Crear el   req.user
+			- Comparar el  req.user  con el   tema.user  para saber si es el mismo.
 
 
-	- s
+	- Vamos a Modificar equipos Pokemon
+	  - Primero hacer el test y luego implementa la funcionalidad
+		  - Hacemos log in  .post('/auth/login')  >  Enviamos el teamArr  .put('/teams')
+				>  Objetenemos la ingo  .get('/teams')
 
+    - 
 
 	- s
 
