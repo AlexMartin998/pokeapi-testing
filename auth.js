@@ -16,6 +16,7 @@ module.exports = new JwtStrategy(opts, async (payload, done) => {
     const user = await User.findById(payload.id);
     if (!user) return done(null, false);
 
+    // Lo q mande aqui como 2do parametro sera el value de    req.user
     return done(null, user);
   } catch (error) {
     console.log(error);

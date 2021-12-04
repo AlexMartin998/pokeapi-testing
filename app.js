@@ -1,19 +1,14 @@
+'use strict';
 console.clear();
 
-const { response, request } = require('express');
 const express = require('express');
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
 
-const { PORT, SECRETORPRIVATEKEY } = require('./config');
+const { PORT } = require('./config');
 const passportMiddleware = require('./auth');
-const User = require('./models/user.model.js');
+const { authRoutes, teamsRoutes } = require('./routes');
 
-
-
-// ------------------------------------------------------------------------
 // // Initializations:
-
 //  DB
 require('./db.js');
 
@@ -23,98 +18,20 @@ const app = express();
 app.use(passport.initialize());
 passport.use(passportMiddleware);
 
-function createToken(user) {
-  return jwt.sign({ id: user.id, email: user.email }, SECRETORPRIVATEKEY, {
-    expiresIn: '24h',
-  });
-}
 
-
-
-// ------------------------------------------------------------------------
 // // Middlewares:
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-// // Routes
-app.get('/', (req, res) => {
-  res.status(200).send('HW');
-});
+// // Routes:
+app.use('/auth', authRoutes);
+app.use('/teams', teamsRoutes);
 
 
-// Login
-app.post('/login', async (req = request, res = response) => {
-  const { email, password } = req.body;
-  if (!email || !password)
-    return res.status(400).json({ msg: 'Email and Password are required!' });
-
-  const user = await User.findOne({ email });
-  if (!user)
-    return res.status(404).json({ msg: `The user '${email}'' doesn't exist!` });
-
-  const isMatch = password === user.password;
-  if (!isMatch) return res.status(401).json({ msg: 'Incorrect password!' });
-
-  const token = `Bearer ${createToken(user)}`;
-
-	res.status(200).json({ msg: 'Ok!', token });
-});
-
-
-// Add Pokemon
-app.post('/team/pokemons', (req, res) => {
-  res.status(200).json({ msg: 'Pokemon added!' });
-});
-
-
-// Consult Team
-app.get(
-  '/team',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    res.status(200).send('Hello Wolrd!');
-  }
-);
-
-
-// Swap the order of our pokemon
-app.put('/', (req, res) => {
-  res.status(200).json({ msg: 'Put' });
-});
-
-
-// Delete Pokemon
-app.delete('/team/pokemons/:id', (req, res) => {
-  res.status(200).send('HW');
-});
-
-// Test passport strategy
-app.post(
-  '/private',
-  passport.authenticate('jwt', { session: false }),
-  async (req = request, res = response) => {
-    const { email, password } = req.body;
-    if (!email || !password)
-      return res.status(400).json({ msg: 'Email and Password are required!' });
-
-    const user = await User.findOne({ email });
-    if (!user)
-      return res
-        .status(404)
-        .json({ msg: `The user '${email}'' doesn't exist!` });
-
-    res.status(200).json({ msg: 'Ok!', email, password });
-  }
-);
-
-
-
-// ------------------------------------------------------------------------
 app.listen(PORT, () => {
   console.log(`Server on port ${PORT}`);
 });
-
 
 module.exports = app;
 
@@ -219,13 +136,19 @@ module.exports = app;
 		- Instalamos passport:       npm i passport passport-jwt jsonwebtoken
 		- Implementamos el POST para el login:
 		  - Creamos el auth.controller.js:
-			- 
-			
-		- 
 	
 
-	- s
+	- Refactorizando
+	  - Un pequeno refactoring
+		- En la siguiente clase debemos tener   tests   x cada  ruta principal
 	
+
+	- Y se guardan
+	  - Passport agrega  user  al req, y el value de este   req.user   sera lo que retornemos como 2do parametro en la f(x)   done(null, user);   de la config de la Strategy de passport.
+
+
+	- s
+
 
 	- s
 
