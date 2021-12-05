@@ -13,6 +13,7 @@ router
   .put(
     passport.authenticate('jwt', { session: false }),
     async (req = request, res = response) => {
+      // TODO: PUT haga la consulta con Axios
       const { team } = req.body;
       if (!team) return res.status(400).json({ msg: 'Team is require!' });
 
@@ -24,8 +25,8 @@ router
         {
           pokemon: team,
           user: req.user._id,
-        }
-        // { upsert: true } // si no existe lo crea
+        },
+        { upsert: true } // si no existe lo crea
       );
 
       const pokemonArr = await Team.findOne({ user: userID });
@@ -85,8 +86,26 @@ router
     }
   );
 
-router.route('/pokemons/:id').delete((req = request, res = response) => {
-  res.status(200).json({ msg: 'Deleted!' });
-});
+router
+  .route('/pokemons/:id')
+  .delete(
+    passport.authenticate('jwt', { session: false }),
+    async (req = request, res = response) => {
+      const { id } = req.params;
+      const user = req.user;
+
+      const { pokemon: team } = await Team.findOne({ user });
+      team.splice(id - 1, 1);
+
+      await Team.updateOne(
+        { user },
+        {
+          pokemon: team,
+        }
+      );
+
+      res.status(200).json({ msg: 'Deleted!', team });
+    }
+  );
 
 module.exports = router;

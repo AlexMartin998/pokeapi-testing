@@ -2,13 +2,10 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const { cleanUpUser } = require('../controllers/users.controller.js');
 const app = require('./../app.js');
 
 chai.use(chaiHttp);
-
-// before((done) => {
-
-// })
 
 describe('[ AUTH ]: Suite de pruebas Auth', () => {
   const newUser = {
@@ -84,4 +81,10 @@ describe('[ AUTH ]: Suite de pruebas Auth', () => {
           });
       });
   });
+});
+
+after(done => {
+  cleanUpUser();
+  console.log('CLEAN USER');
+  done();
 });

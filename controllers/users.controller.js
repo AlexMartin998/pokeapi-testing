@@ -10,7 +10,12 @@ const registerUser = async (email, password) => {
 const checkUserCredentials = async (user, password) =>
   user.comparePassword(password);
 
+const cleanUpUser = async () => {
+  await User.deleteMany({});
+};
+
 module.exports = {
   registerUser,
   checkUserCredentials,
+  cleanUpUser
 };

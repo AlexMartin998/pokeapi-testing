@@ -47,10 +47,36 @@ module.exports = app;
 
 
 */
+// -------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////
+/** S4. Refactorizando nuestra API
+ * Primer refactor: Carpetas por funcionalidad
+  - 
+
+
+ * 
+
+
+
+ * 
+*/
+
+/* 
+
+
+
+
+
+
+
+
+
+
+*/
 
 // -------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////
-/** 2. Creando nuestra API de POKEMON
+/** S3. Creando nuestra API de POKEMON
  * Empezando sin refactorizacion. Que funcione y ya esta.
 	- Crear algo funcional
 
@@ -169,16 +195,20 @@ module.exports = app;
 	- Limpiando datos entre tests
 	  - Queremos que en cda ejecucion del test se reinicie todo. Mocha nos ayuda con
 		  - before(cb):				Se ejecuta antes de cada  DESCRIBE. Antes de los tests
-			  - Puede funcionar para registrar users
+			  - Los  before  se ejecutan ANTES de cada test, no importa cuantor archivos
+				- Puede funcionar para registrar users
 			- beforeEach(cb):		Se ejecuta antes de cada   IT
-			  - 
+			- after(cb):				Se ejecutan Al final del test, terminan los describe y se ejecutan los after de cada archivo.
 		- Queremos que en el test se cree un user y todo
-		  - 
-		- 
 		- // TODO: Verificaciones con   express-validator
-		  - Como con FH
+		  - Si es ID valido, si envia la data, etc  <-  Como con FH
+		- .deleteMany({})		<-  Eliminar Documents de una collection Mongoose
 
-
+	- Tarea - Eliminar pokemon dato 1 token y el Index en el team Arr
+	  - En la siguiente seccion haremos un  Refactoring:
+		  - Cambiar codigo interno sin que afecte al funcionamiento del sistema
+				- Mejoraremos la arquitectura de la API
+				- Gracias a los Tests el refactor ser mucho mas facil de lo q es normalmente xq mientras los tests vayan pasando, estaremos seguros q el codigo va bien.
 
  */
 
@@ -197,7 +227,7 @@ module.exports = app;
 
 // -------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////
-/** 1. Intro
+/** S2. Intro
  * Codigos de error
 	-  El estado de la respuesta que hace el servidor viene definido por números que siguen un estandar:
 		1. Respuestas Informativas (100 - 199)
