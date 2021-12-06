@@ -39,7 +39,7 @@ const LogIn = async (req = request, res = response) => {
   const isMatch = await checkUserCredentials(user, password);
   if (!isMatch) return res.status(401).json({ msg: 'Incorrect password!' });
 
-  const token = `Bearer ${createToken(user)}`;
+  const token = `JWT ${createToken(user)}`;
 
   return res.status(200).json({ msg: 'Ok!', token });
 };

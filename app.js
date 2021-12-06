@@ -86,7 +86,13 @@ module.exports = app;
 
 
 
- * 
+ * Los Problemas de la API
+  - Tiene que ver con la DB
+		- En la prox seccion usara MongoDB, lo q ya implemente desde el inicio.
+	- Para usar   jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("JWT")
+	  - Basta con cambiarlo en el auth.middleware
+		- Y con enviar    JWT token...    en las solicitudes.
+	- 
 
 
 

@@ -11,7 +11,7 @@ const initializePassport = () => passport.initialize();
 
 const init = () => {
   const opts = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
     secretOrKey: SECRETORPRIVATEKEY,
   };
 
