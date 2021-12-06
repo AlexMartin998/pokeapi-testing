@@ -38,6 +38,36 @@ module.exports = app;
 */
 // -------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////
+/** S5. Persistencia - Intro a MongoDB
+ * MongoDB
+	- Documentos y collections
+	  - Cosas robustas como Las transacciones de SQL deben ser contruidas por tu cuenta
+	- Mongoose:
+	  - Hace lo que yo ya hice
+	- Problema:
+	  - Los test limpian las DB
+		  - Tener una DB para test y otra para porduccion 
+
+
+ * s
+ * s
+ * 
+*/
+
+/* 
+
+
+
+
+
+
+
+
+
+
+*/
+// -------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////
 /** S4. Refactorizando nuestra API
  * Primer refactor: Carpetas por funcionalidad
   - Para que a futuro el docigo sea escalable y mucho mas facil de mantener
@@ -81,6 +111,7 @@ module.exports = app;
 
 
  * Gestionando los errores
+	- Creamos el   to.js
   - Implementa algo como lo que se hace en  Go
 	- Ya no hace falta el try/catch
 
@@ -269,6 +300,25 @@ module.exports = app;
 // -------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////
 /** S2. Intro
+ * Las operaciones del protocolo HTTP
+  - Seguras: NO modifica el Estado del servidor. Lecturas
+	- Idempotentes: Realiza la misma accion varias veces seguidas SIN afectar el Estado del server.
+	  - Si uso POST 2 veces para crear 1 recurso, lo creo 2 veces. Eso NO es idempotente.
+	- Cacheables: EL cliente se pueda guardar el resultado.
+
+	- Verbos http:
+	  - GET					<-	Lectura de un recurso. (Seguro, idempotente y cacheable).
+		- HEAD				<-	Igual que el GET, pero NO retorna una respuesta.
+		- POST				<-	Crear nuevos recursos. (NO es seguro Ni idempotente).
+		- PUT					<-	Actualizar un recurso ← Reemplaza el recurso entero, en pack.  (No es seguro, pero SI idempotente). Si actualizo un recurso constantemente, no modifico el state xq no se crea un nuevo recurso, ni se elimina un recurso. Solo cambia una fraccion de un recurso existente.
+		- DELETE			<-	Eliminar un recurso. (No seguro, ni idempotente ← Elimina del server físicamente).
+		- CONNECT			<-	Conectar con un recurso.
+		- OPTIONS			<-	Ver opciones de conexión.
+		- TRACE				<-	Realiza un mensaje para ver por donde pasa el msg hasta llegar el recurso.
+		- PATCH				<-	Para modificaciones parciales. ← Modificar solo X propiedades de la entidad.
+
+		
+
  * Codigos de error
 	-  El estado de la respuesta que hace el servidor viene definido por números que siguen un estandar:
 		1. Respuestas Informativas (100 - 199)
