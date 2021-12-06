@@ -6,9 +6,9 @@ const { response, request } = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-const User = require('./../models/user.model.js');
-const { checkUserCredentials } = require('../controllers');
-const { SECRETORPRIVATEKEY } = require('../config');
+const User = require('./user.model.js');
+const { checkUserCredentials } = require('./users.controller.js');
+const { SECRETORPRIVATEKEY } = require('./../config');
 
 function createToken(user) {
   return jwt.sign({ id: user.id, email: user.email }, SECRETORPRIVATEKEY, {
@@ -54,25 +54,16 @@ router.route('/login').post(async (req = request, res = response) => {
 });
 
 // Test passport strategy
-router
-  .route('/private')
-  .post(
-    passport.authenticate('jwt', { session: false }),
-    async (req = request, res = response) => {
-      const { email, password } = req.body;
-      if (!email || !password)
-        return res
-          .status(400)
-          .json({ msg: 'Email and Password are required!' });
+router.route('/private').post(async (req = request, res = response) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    return res.status(400).json({ msg: 'Email and Password are required!' });
 
-      const user = await User.findOne({ email });
-      if (!user)
-        return res
-          .status(404)
-          .json({ msg: `The user '${email}'' doesn't exist!` });
+  const user = await User.findOne({ email });
+  if (!user)
+    return res.status(404).json({ msg: `The user '${email}'' doesn't exist!` });
 
-      res.status(200).json({ msg: 'Ok!', email, password });
-    }
-  );
+  res.status(200).json({ msg: 'Ok!', email, password });
+});
 
 module.exports = router;

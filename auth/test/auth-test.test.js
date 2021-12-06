@@ -2,8 +2,8 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const { cleanUpUser } = require('../controllers/users.controller.js');
-const app = require('./../app.js');
+const { cleanUpUser } = require('./../users.controller.js');
+const app = require('./../../app.js');
 
 chai.use(chaiHttp);
 

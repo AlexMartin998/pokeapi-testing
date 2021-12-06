@@ -2,32 +2,21 @@
 console.clear();
 
 const express = require('express');
-const passport = require('passport');
-
 const { PORT } = require('./config');
-const passportMiddleware = require('./auth');
-const { authRoutes, teamsRoutes } = require('./routes');
+const authRoutes = require('./auth/auth.routes.js');
+const teamsRoutes = require('./teams/teams.routes.js');
+const { setupMiddlewares } = require('./middlewares');
 
 // // Initializations:
-//  DB
 require('./db.js');
-
 const app = express();
 
-// Passport:
-app.use(passport.initialize());
-passport.use(passportMiddleware);
-
-
 // // Middlewares:
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
+setupMiddlewares(app);
 
 // // Routes:
 app.use('/auth', authRoutes);
 app.use('/teams', teamsRoutes);
-
 
 app.listen(PORT, () => {
   console.log(`Server on port ${PORT}`);
@@ -51,14 +40,40 @@ module.exports = app;
 //////////////////////////////////////////////////////////////////////
 /** S4. Refactorizando nuestra API
  * Primer refactor: Carpetas por funcionalidad
+  - Para que a futuro el docigo sea escalable y mucho mas facil de mantener
+	- Bettatech dice:
+	  - Cuando se tiene un proyecto pequeno tener todos los controllers, modes, middlewares juntos va bien
+		- Pero cuando el proyecto crece, a Bettatech le Gusta organizar los proyectos por modulos o por funcionalidad
+		  - Para no tener q buscar los modulos en diferentes directorios cada vez que se tengan q hacer cambios.
+		- Una carpeta por modulo/funcionalidad
+		  - Estructura por capas
+
+
+ * Utilizando Middlewares
+  - El archivo/modulo     auth/middleware.js     tiene la f(x)    protectWithJWT()
+	  - Con esta funcion establecemso manualmente que rutas estan protegidas con passport en 1 solo lugar.
+		- Con esto ya NO importamos passport en ningun router ni debemos establecer logica de passport en ningun router. 
+		- Si son muchas rutas deberia tener un Arr de paths permitidos ????
+	- Esto es posible gracias al    index   del middlewares/ 
+	  -  app.use(protectWithJWT);   <-  app.use se encarga de pasar  req, res, next
+	- Esto de tener un middleware en una sola funcion me gusto. 
+		- setupMiddlewares(app);
+
+
+
+ * Separar la logica de los Routes
   - 
+	
+	
+
+ * 
+
 
 
  * 
 
 
 
- * 
 */
 
 /* 
