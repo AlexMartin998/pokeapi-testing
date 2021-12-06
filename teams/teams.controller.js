@@ -6,6 +6,10 @@ const cleanUpTeams = async () => {
   await Team.deleteMany({});
 };
 
+
+
+
+
 module.exports = {
   cleanUpTeams,
 };

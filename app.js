@@ -56,17 +56,29 @@ module.exports = app;
 		- Si son muchas rutas deberia tener un Arr de paths permitidos ????
 	- Esto es posible gracias al    index   del middlewares/ 
 	  -  app.use(protectWithJWT);   <-  app.use se encarga de pasar  req, res, next
-	- Esto de tener un middleware en una sola funcion me gusto. 
+	- Esto de tener un middleware en una sola funcion me GUSTO. 
 		- setupMiddlewares(app);
-
+	- // TODO: Implementar esta f(x) middleware en TS <- server.ts
+	  - Verificar en cuantos archivos se importa passport
+		- Aqui solo en el middleware de auth y en ningun otro lado.
 
 
  * Separar la logica de los Routes
-  - 
-	
+  - teams.hhtp.js
+	  - Gestionara todas las peticiones hhtp
+		- 
+	- app.js y las routes.js  simplemente se encargan de Gestionar la Definicion de la API
+	  - Quien se encarga de implementar la Logica de nuestros procesos YA NO tiene nada que ver con express.
+		- Separar la capa de transporte HTPP de las del Bussiness (controllers)
+			- La capa intermedia que se encarga de controllar la comunicacion entre transporte http con controllers es el  httpHandler (team.http.js)
+			- Solo tiene f(x) q reciben como parametro  req, res
+			- Solo deben retornar   Responses   del server
+		- Router solo depende de express y del http handler
 	
 
- * 
+ * Promesas y asycn await
+  - Cuando trabajamos con Promesas no necesitamos el callback ni el  done()
+	- 
 
 
 
