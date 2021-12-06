@@ -4,6 +4,7 @@ const { response, request } = require('express');
 const axios = require('axios');
 
 const Team = require('./team.model.js');
+const to = require('../tools/to.js');
 
 const getTeam = async (req = request, res = response) => {
   // req.user   solo si uso passport antes (middleware)
@@ -46,26 +47,26 @@ const addPokemonToTeam = async (req = request, res = response) => {
   const userID = req.user._id;
   const { name } = req.body;
 
-  try {
-    const { data } = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`
-    );
+  const [pokeApiErr, response] = await to(
+    axios.get(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`)
+  );
 
-    const pokeData = {
-      pokemon: {
-        name: data.name,
-        pokedexNumber: data.id,
-      },
-      user: userID,
-    };
+  if (pokeApiErr) return res.status(400).json({ msg: pokeApiErr });
 
-    const team = Team(pokeData);
-    const teamComplete = await team.save();
+  const { data } = response;
+  const pokeData = {
+    pokemon: {
+      name: data.name,
+      pokedexNumber: data.id,
+    },
+    user: userID,
+  };
 
-    res.status(200).json({ msg: 'POST - Pokemon', team: teamComplete.pokemon });
-  } catch (error) {
-    return res.status(400).json({ msg: error });
-  }
+  const team = Team(pokeData);
+  const [addErr, teamComplete] = await to(team.save());
+  if (addErr) return res.status(400).json({ msg: saveErr });
+
+  res.status(201).json({ msg: 'POST - Pokemon', team: teamComplete.pokemon });
 };
 
 const deletePokemon = async (req = request, res = response) => {

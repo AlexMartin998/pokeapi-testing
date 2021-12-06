@@ -78,7 +78,15 @@ module.exports = app;
 
  * Promesas y asycn await
   - Cuando trabajamos con Promesas no necesitamos el callback ni el  done()
-	- 
+
+
+ * Gestionando los errores
+  - Implementa algo como lo que se hace en  Go
+	- Ya no hace falta el try/catch
+
+
+
+ * 
 
 
 
